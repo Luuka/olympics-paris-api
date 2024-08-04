@@ -13,5 +13,8 @@ COPY docker/prod/php/php.ini /usr/local/etc/php/php.ini
 COPY symfony /app/public
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+RUN composer install --no-dev --optimize-autoloader
+RUN composer dump-env prod
 
