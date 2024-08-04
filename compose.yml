@@ -11,9 +11,7 @@ services:
       MAX_REQUESTS: 10
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./symfony:/app/public
-      - ./caddy/data:/data
-      - ./caddy/config:/config
+      - ./docker/dev/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./docker/dev/php/php.ini:/usr/local/etc/php/php.ini

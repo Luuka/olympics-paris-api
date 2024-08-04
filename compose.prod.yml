@@ -9,8 +9,8 @@ services:
       FRANKENPHP_CONFIG: "worker /app/public/public/index.php"
       APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
       MAX_REQUESTS: 10
-    volumes:
-      - ./docker/prod/php/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "8089:80"
     networks:
       - web
     labels:

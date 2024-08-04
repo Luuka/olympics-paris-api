@@ -8,8 +8,7 @@ RUN apt update && apt install -y \
 
 RUN install-php-extensions opcache
 
-COPY caddy/data /data
-COPY caddy/config /config
+COPY docker/prod/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY docker/prod/php/php.ini /usr/local/etc/php/php.ini
 COPY symfony /app/public
 
