@@ -20,5 +20,10 @@ http:// {
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
+	header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods "GET"
+    }
+
 	php_server
 }
