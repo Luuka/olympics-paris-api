@@ -5,10 +5,6 @@ services:
       context: .
       dockerfile: ./docker/dev/php/Dockerfile
     restart: always
-    environment:
-      FRANKENPHP_CONFIG: "worker /app/public/public/index.php"
-      APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
-      MAX_REQUESTS: 10
     ports:
       - "80:80"
     volumes:

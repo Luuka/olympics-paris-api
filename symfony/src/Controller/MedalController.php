@@ -2,45 +2,57 @@
 
 namespace App\Controller;
 
-use App\Medal\MedalService;
-use Psr\Cache\CacheItemPoolInterface;
+use App\Country\Continent;
+use App\Medal\ContinentProvider;
+use App\Medal\CountryProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\CacheItem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Cache\CacheInterface;
-use Throwable;
 
 #[Route('/medals')]
 class MedalController extends AbstractController
 {
-    #[Route('/')]
-    public function medals(
-        MedalService $medalService,
-        CacheInterface $cache,
-        CacheItemPoolInterface $cacheItemPool,
+    #[Route('/continents')]
+    public function continents(
+        ContinentProvider $provider,
     ): JsonResponse
     {
-        $medals = [];
+        $medals = $provider->getMedals();
+        return new JsonResponse($medals);
+    }
 
-        try {
-            $medals = $cache->get('medals', function (CacheItem $item) use ($medalService, $cacheItemPool) {
-                $item->expiresAfter(3600);
-                $medals = $medalService->getMedals();
+    #[Route('/continents/countries')]
+    public function continentsCountries(
+        ContinentProvider $provider,
+    ): JsonResponse
+    {
+        $medals = $provider->getMedalsByCountryInContinent(Continent::EU);
+        return new JsonResponse($medals);
+    }
 
-                $backupItem = $cacheItemPool->getItem('medals-backup')->set($medals);
-                $cacheItemPool->save($backupItem);
+    #[Route('/countries')]
+    public function countriesMedals(
+        CountryProvider $provider,
+    ): JsonResponse
+    {
+        $medals = $provider->getMedals();
+        return new JsonResponse($medals);
+    }
+    #[Route('/countries/sports')]
+    public function countriesSportsMedals(
+        CountryProvider $provider,
+    ): JsonResponse
+    {
+        $medals = $provider->getMedalsBySports();
+        return new JsonResponse($medals);
+    }
 
-                return $medals;
-            });
-        } catch (Throwable) {
-            $backup = $cacheItemPool->getItem('medals-backup');
-
-            if($backup->isHit()) {
-                $medals = $backup->get();
-            }
-        }
-
+    #[Route('/countries/genders')]
+    public function countriesGenderMedals(
+        CountryProvider $provider,
+    ): JsonResponse
+    {
+        $medals = $provider->getMedalsByGender();
         return new JsonResponse($medals);
     }
 }

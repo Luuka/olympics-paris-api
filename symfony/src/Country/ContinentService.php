@@ -58,4 +58,17 @@ class ContinentService
     {
         return self::COUNTRY_CONTINENTS[$countryCode];
     }
+
+    public function getCountriesByContinent(Continent $continent): array
+    {
+        $countries = [];
+
+        foreach (self::COUNTRY_CONTINENTS as $countryCode => $continentCode) {
+            if ($continentCode === $continent->value) {
+                $countries[] = $countryCode;
+            }
+        }
+
+        return $countries;
+    }
 }
