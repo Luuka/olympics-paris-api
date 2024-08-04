@@ -1,28 +1,24 @@
-version: '3.8'
+version: '3.3'
 services:
   php:
     build:
       context: .
-      dockerfile: ./docker/dev/php/Dockerfile
+      dockerfile: ./docker/prod/php/Dockerfile
     restart: always
     environment:
       FRANKENPHP_CONFIG: "worker /app/public/public/index.php"
       APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
       MAX_REQUESTS: 10
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
-      - ./symfony:/app/public
       - ./caddy/data:/data
       - ./caddy/config:/config
-      - ./docker/dev/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/prod/php/php.ini:/usr/local/etc/php/php.ini
     networks:
       - web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hugotrebouet.rule=Host(`olympics.lucas-trebouet.fr`)"
-      - "traefik.http.routers.hugotrebouet.entrypoints=websecure"
+      - "traefik.http.routers.olympics.rule=Host(`olympics.lucas-trebouet.fr`)"
+      - "traefik.http.routers.olympics.entrypoints=websecure"
 
 networks:
   web:
