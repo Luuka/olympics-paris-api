@@ -10,6 +10,7 @@ RUN install-php-extensions opcache
 
 COPY caddy/data /data
 COPY caddy/config /config
+COPY docker/prod/php/php.ini /usr/local/etc/php/php.ini
 COPY symfony /app/public
 
 ENV COMPOSER_ALLOW_SUPERUSER=1

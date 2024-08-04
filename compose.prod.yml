@@ -10,8 +10,6 @@ services:
       APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
       MAX_REQUESTS: 10
     volumes:
-      - ./caddy/data:/data
-      - ./caddy/config:/config
       - ./docker/prod/php/php.ini:/usr/local/etc/php/php.ini
     networks:
       - web
