@@ -27,8 +27,9 @@ class ContinentProvider extends AbstractMedalProvider
         $medals = [];
         foreach ($medalsByCountry as $countryCode => $country) {
             $continentCode = $this->continentService->getContinent($countryCode);
-
-            $medals = $this->getMedalsCount($medals, $continentCode, $country);
+            if($continentCode !== null) {
+                $medals = $this->getMedalsCount($medals, $continentCode, $country);
+            }
         }
 
         return $this->medalSorter->sort($medals);
@@ -46,6 +47,10 @@ class ContinentProvider extends AbstractMedalProvider
                 if(isset($medalsByCountry[$countryCode])) {
                     $country = $medalsByCountry[$countryCode];
                     $continentCode = $this->continentService->getContinent($countryCode);
+
+                    if($continentCode === null) {
+                        continue;
+                    }
 
                     if (!isset($medals[$continentCode][$countryCode])) {
                         $medals[$continentCode][$countryCode] = [

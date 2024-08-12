@@ -54,9 +54,9 @@ class ContinentService
         'TUV' => 'OC', 'VAN' => 'OC',
     ];
 
-    public function getContinent(string $countryCode): string
+    public function getContinent(string $countryCode): ?string
     {
-        return self::COUNTRY_CONTINENTS[$countryCode];
+        return self::COUNTRY_CONTINENTS[$countryCode] ?? null;
     }
 
     public function getCountriesByContinent(Continent $continent): array
